@@ -1,0 +1,26 @@
+/* membershipApplication.css */
+
+body {
+    background: linear-gradient(to right, #1f1c2c, #928DAB); /* Gradient background */
+    font-family: 'Roboto', sans-serif; /* Using Roboto font */
+  }
+  
+  .application-container {
+    max-width: 500px;
+    margin: 100px auto; /* Center the box vertically and horizontally */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  }
+  
+  .application-form {
+    width: 100%; /* Full width form */
+  }
+  
+  .application-button {
+    width: 100%; /* Full width button */
+    padding: 10px; /* Button padding */
+    font-size: 16px; /* Button font size */
+  }
+  

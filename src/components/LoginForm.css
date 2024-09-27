@@ -1,0 +1,20 @@
+body {
+    background-color: #f8f9fa; /* Change to your desired background color */
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height to center vertically */
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 400px; /* Limit width for larger screens */
+    background-color: white; /* Background for the form */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
