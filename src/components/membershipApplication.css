@@ -9,7 +9,7 @@ body {
     max-width: 500px;
     margin: 100px auto; /* Center the box vertically and horizontally */
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    background: rgba(36, 13, 13, 0.9); /* Slightly transparent white */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Shadow effect */
   }

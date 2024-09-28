@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import './register.css'; // Import the CSS file
 
 const Register = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -24,6 +26,8 @@ const Register = () => {
 
     try {
       await register(email, password);
+      // Store the user's name in local storage or context
+      localStorage.setItem('userName', `${firstName} ${lastName}`);
       toast({
         title: "Registration successful",
         status: "success",
@@ -46,6 +50,14 @@ const Register = () => {
       <Heading as="h1" size="lg" mb={6} color="white">Create Your Account</Heading>
       <form onSubmit={handleSubmit} className="register-form">
         <VStack spacing={4}>
+          <FormControl id="first-name" isRequired>
+            <FormLabel color="white">First Name</FormLabel>
+            <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          </FormControl>
+          <FormControl id="last-name" isRequired>
+            <FormLabel color="white">Last Name</FormLabel>
+            <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+          </FormControl>
           <FormControl id="email" isRequired>
             <FormLabel color="white">Email address</FormLabel>
             <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />

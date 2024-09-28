@@ -1,0 +1,124 @@
+/* Dashboard.css */
+
+/* Global Styles */
+.dashboard {
+    font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1, h2, h3 {
+    color: #2c3e50;
+  }
+  
+  /* Overview Section */
+  .overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Section Styles */
+  section {
+    margin-bottom: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Chart Containers */
+  .loan-chart, .savings-chart, .expense-chart {
+    height: 300px;
+    margin-top: 20px;
+  }
+  
+  /* List Styles */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  /* Button Styles */
+  button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .overview-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    section {
+      padding: 15px;
+    }
+  }
+  
+  /* Color Palette */
+  :root {
+    --primary-blue: #3498db;
+    --secondary-blue: #2980b9;
+    --primary-green: #2ecc71;
+    --secondary-green: #27ae60;
+    --light-gray: #ecf0f1;
+    --dark-gray: #34495e;
+  }
+  
+  /* Apply color palette */
+  .dashboard {
+    background-color: var(--light-gray);
+  }
+  
+  .card, section {
+    background-color: white;
+  }
+  
+  h1, h2, h3 {
+    color: var(--dark-gray);
+  }
+  
+  .overview .card:nth-child(1) { background-color: var(--primary-blue); color: white; }
+  .overview .card:nth-child(2) { background-color: var(--primary-green); color: white; }
+  .overview .card:nth-child(3) { background-color: var(--secondary-blue); color: white; }
+  .overview .card:nth-child(4) { background-color: var(--secondary-green); color: white; }
+  
+  /* Additional styles for better visual hierarchy and readability */
+  .recent-transactions, .alerts-list {
+    background-color: var(--light-gray);
+    padding: 15px;
+    border-radius: 4px;
+  }
+  
+  .generate-report {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+  }
