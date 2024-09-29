@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, GridItem, Heading, Text, VStack, Flex, Spacer, Button, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { DollarSign, CreditCard, Briefcase, Activity } from 'lucide-react';
 import { format, subDays } from 'date-fns';
@@ -12,52 +12,59 @@ import { InvestmentOpportunitiesCard } from './InvestmentOpportunitiesCard';
 import { NewsUpdatesCard } from './NewsUpdatesCard';
 import { GoalProgressCard } from './GoalProgressCard';
 
-// Mock data
-const mockUserData = {
-  name: "John Doe",
-  membershipNumber: "SACCO001",
-  joinDate: "2020-01-15",
-  savingsBalance: 25000,
-  loanBalance: 10000,
-  creditScore: 780,
-  investmentValue: 15000,
-  savingsGoal: 50000,
-  loanLimit: 30000,
+// Function to generate mock chart data
+const generateChartData = () => {
+  return Array.from({ length: 12 }, (_, i) => ({
+    month: format(subDays(new Date(), (11 - i) * 30), 'MMM'),
+    savings: Math.floor(Math.random() * 5000) + 20000,
+    loans: Math.floor(Math.random() * 3000) + 8000,
+    investments: Math.floor(Math.random() * 2000) + 13000,
+  }));
 };
 
-const mockTransactionData = [
-  { date: '2023-06-01', type: 'Savings Deposit', amount: 1000 },
-  // Other transactions...
-];
-
-const mockChartData = Array.from({ length: 12 }, (_, i) => ({
-  month: format(subDays(new Date(), (11 - i) * 30), 'MMM'),
-  savings: Math.floor(Math.random() * 5000) + 20000,
-  loans: Math.floor(Math.random() * 3000) + 8000,
-  investments: Math.floor(Math.random() * 2000) + 13000,
-}));
-
-const mockPieData = [
-  { name: 'Savings', value: 25000 },
-  { name: 'Loans', value: 10000 },
-  { name: 'Investments', value: 15000 },
-];
-
+// Dashboard Component
 const Dashboard = () => {
-  const [userData] = useState(mockUserData);
-  const [transactionData] = useState(mockTransactionData);
-  const [chartData] = useState(mockChartData);
-  const [pieData] = useState(mockPieData);
+  // State to hold user data
+  const [userData, setUserData] = useState(null);
+  const transactionData = []; // Populate this with your transaction data
+  const chartData = generateChartData();
+
+  // Mock user data for demonstration
+  useEffect(() => {
+    const mockUserData = {
+      name: 'John Doe',
+      savingsBalance: 25000,
+      loanBalance: 15000,
+      investmentValue: 12000,
+      creditScore: 720,
+      membershipNumber: 'KMS123456',
+      joinDate: '2022-01-15',
+      savingsGoal: 50000,
+      loanLimit: 20000,
+    };
+    setUserData(mockUserData);
+  }, []);
+
+  const pieData = userData ? [
+    { name: 'Savings', value: userData.savingsBalance },
+    { name: 'Loans', value: userData.loanBalance },
+    { name: 'Investments', value: userData.investmentValue },
+  ] : [];
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const bgColor = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.800', 'white');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
+  if (!userData) {
+    return <Text>Loading user data...</Text>; // Loading state
+  }
+
   return (
     <Box maxWidth="1400px" margin="auto" p={5}>
       <Flex alignItems="center" mb={8}>
-        <Heading size="xl" color={textColor}>KMS Dashboard</Heading>
+        <Heading size="xl" color={textColor}>Welcome back, {userData.name}!</Heading>
         <Spacer />
         <Button colorScheme="blue" leftIcon={<CreditCard size={20} />} onClick={onOpen}>
           Apply for Loan
@@ -108,15 +115,15 @@ const Dashboard = () => {
         </GridItem>
         <GridItem>
           <VStack spacing={6}>
-            <InvestmentOpportunitiesCard opportunities={[]} /> {/* Pass relevant data if necessary */}
-            <NewsUpdatesCard updates={[]} /> {/* Pass relevant data if necessary */}
+            <InvestmentOpportunitiesCard opportunities={[]} /> {/* Replace with real data */}
+            <NewsUpdatesCard updates={[]} /> {/* Replace with real data */}
           </VStack>
         </GridItem>
       </Grid>
 
       <Grid templateColumns={{ base: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }} gap={6}>
         <GridItem>
-          <GoalProgressCard currentSavings={userData.savingsBalance} savingsGoal={userData.savingsGoal} loanBalance={userData.loanBalance} loanLimit={userData.loanLimit} />
+          <GoalProgressCard currentSavings={userData.savingsBalance} savingsGoal={50000} loanBalance={userData.loanBalance} loanLimit={20000} />
         </GridItem>
         <GridItem>
           <Box bg={bgColor} p={5} borderRadius="lg" boxShadow="xl" border="1px" borderColor={borderColor}>
