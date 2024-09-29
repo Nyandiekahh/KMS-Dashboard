@@ -14,12 +14,41 @@ const EmailSignInForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Ensure email and password are not empty
+      if (email === '' || password === '') {
+        throw new Error("Email and password must be provided");
+      }
+
+      // Sign in using email and password
       await signInWithEmailAndPassword(auth, email, password);
       navigate('/dashboard'); // Navigate to the dashboard after successful login
     } catch (error) {
+      let errorMessage = "Invalid email or password.";
+
+      // Check for specific Firebase error codes
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = "No account found with this email. Please register first.";
+        toast({
+          title: "Login failed.",
+          description: errorMessage,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+        // Optional: Navigate to registration page or show a prompt
+        // navigate('/register'); // Uncomment this line if you want to redirect to a registration page
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = "The password is incorrect. Please try again.";
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = "The email format is invalid.";
+      } else {
+        console.error("Login error: ", error); // Log unexpected errors
+      }
+
+      // Show toast with error message
       toast({
         title: "Login failed.",
-        description: error.message,
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -51,6 +80,13 @@ const EmailSignInForm = () => {
       </FormControl>
       <Button type="submit" width="full" colorScheme="teal" leftIcon={<FaSignInAlt />}>
         Login to Your Account
+      </Button>
+      <Button
+        variant="link"
+        onClick={() => navigate('/register')} // Navigate to register page
+        mt={2}
+      >
+        Don't have an account? Register here.
       </Button>
     </form>
   );
