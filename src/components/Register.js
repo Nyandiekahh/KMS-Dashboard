@@ -1,80 +1,67 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControl, FormLabel, Input, VStack, useToast, Heading } from "@chakra-ui/react";
-import { useAuth } from '../contexts/AuthContext';
-import './register.css'; // Import the CSS file
+import { VStack, FormControl, FormLabel, Input, Button, useToast } from '@chakra-ui/react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './firebaseConfig';
 
-const Register = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+const RegistrationForm = ({ onSignInClick }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { register } = useAuth();
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast({
-        title: "Passwords do not match",
+        title: "Passwords don't match",
         status: "error",
         duration: 3000,
         isClosable: true,
       });
       return;
     }
-
     try {
-      await register(email, password);
-      // Store the user's name in local storage or context
-      localStorage.setItem('userName', `${firstName} ${lastName}`);
+      await createUserWithEmailAndPassword(auth, email, password);
       toast({
-        title: "Registration successful",
+        title: "Account created successfully",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+      // Navigate to dashboard or home page
     } catch (error) {
       toast({
         title: "Registration failed",
         description: error.message,
         status: "error",
-        duration: 3000,
+        duration: 5000,
         isClosable: true,
       });
     }
   };
 
   return (
-    <Box className="register-container">
-      <Heading as="h1" size="lg" mb={6} color="white">Create Your Account</Heading>
-      <form onSubmit={handleSubmit} className="register-form">
-        <VStack spacing={4}>
-          <FormControl id="first-name" isRequired>
-            <FormLabel color="white">First Name</FormLabel>
-            <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-          </FormControl>
-          <FormControl id="last-name" isRequired>
-            <FormLabel color="white">Last Name</FormLabel>
-            <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-          </FormControl>
-          <FormControl id="email" isRequired>
-            <FormLabel color="white">Email address</FormLabel>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </FormControl>
-          <FormControl id="password" isRequired>
-            <FormLabel color="white">Password</FormLabel>
-            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </FormControl>
-          <FormControl id="confirm-password" isRequired>
-            <FormLabel color="white">Confirm Password</FormLabel>
-            <Input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-          </FormControl>
-          <Button type="submit" colorScheme="blue" className="register-button">Register</Button>
-        </VStack>
-      </form>
-    </Box>
+    <form onSubmit={handleRegister}>
+      <VStack spacing={4}>
+        <FormControl isRequired>
+          <FormLabel>Email</FormLabel>
+          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Password</FormLabel>
+          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Confirm Password</FormLabel>
+          <Input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        </FormControl>
+        <Button type="submit" colorScheme="blue" width="full">Register</Button>
+        <Button onClick={onSignInClick} variant="link">
+          Already have an account? Sign in here
+        </Button>
+      </VStack>
+    </form>
   );
 };
 
-export default Register;
+export default RegistrationForm;

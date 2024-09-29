@@ -23,7 +23,8 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                  <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                  {/* Render Dashboard without authentication */}
+                  <Route path="/dashboard" element={<Dashboard />} /> 
                   <Route path="/statements" element={<ProtectedRoute><FinancialStatements /></ProtectedRoute>} />
                   <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                   <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
